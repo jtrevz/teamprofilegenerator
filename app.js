@@ -11,6 +11,160 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
+let employeeArray = [];
+
+const whatEmployee = [
+    {
+        type: 'list',
+        name: 'type',
+        message: 'What type of employee is it?',
+        choices: ['Manager', 'Engineer', 'Intern'],
+    },
+]
+
+const managerQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        messsage: "What is the manager's name?",
+    },
+    {
+        type:'input',
+        name: 'id',
+        message: "What is the manager's ID number?",
+    },
+    {
+        type: 'input',
+        name: 'email',
+        mesage: "What is the manager's email?",
+    },
+    {
+        type: 'input',
+        name: 'office',
+        message: "What is the manager's office number?",
+    },
+    {
+        type: 'list',
+        name: 'last',
+        message: "Have you input all employees?",
+        choices:['Yes','No']
+    },
+]
+
+const engineerQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        messsage: "What is the engineer's name?",
+    },
+    {
+        type:'input',
+        name: 'id',
+        message: "What is the engineer's ID number?",
+    },
+    {
+        type: 'input',
+        name: 'email',
+        mesage: "What is the engineer's email?",
+    },
+    {
+        type: 'input',
+        name: 'github',
+        message: "What is the engineer's github username?",
+    },
+    {
+        type: 'list',
+        name: 'last',
+        message: "Have you input all employees?",
+        choices:['Yes','No']
+    },
+]
+
+const internQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        messsage: "What is the intern's name?",
+    },
+    {
+        type:'input',
+        name: 'id',
+        message: "What is the intern's ID number?",
+    },
+    {
+        type: 'input',
+        name: 'email',
+        mesage: "What is the intern's email?",
+    },
+    {
+        type: 'input',
+        name: 'school',
+        message: "What school does this intern attend?",
+    },
+    {
+        type: 'list',
+        name: 'last',
+        message: "Have you input all employees?",
+        choices:['Yes','No']
+    },
+]
+
+function makeManagerArray (input) {
+    let currentArray = new Manager (input.name, input.id, input.email, input.office)
+    // renderHTML(currentArray)
+    employeeArray.push(currentArray);
+    if (input.last == "Yes"){
+        fs.writeFile('./output/team.html', render(employeeArray),(err) => console.log(err));
+    } else {init()}
+}
+
+function makeEngineerArray (input) {
+    let currentArray = new Engineer (input.name, input.id, input.email, input.github)
+    employeeArray.push(currentArray);
+    if (input.last == "Yes"){
+        fs.writeFile('./output/team.html', render(employeeArray),(err) => console.log(err));
+    } else {init()}
+}
+
+function makeInternArray (input) {
+    let currentArray = new Intern (input.name, input.id, input.email, input.school)
+    employeeArray.push(currentArray);
+    if (input.last == "Yes"){
+        fs.writeFile('./output/team.html', render(employeeArray),(err) => console.log(err));
+        console.log(employeeArray);
+    } else {init()}
+}
+
+function init() {
+    inquirer.prompt(whatEmployee)
+    .then((input) => {
+        if(input.type == 'Manager'){
+            inquirer.prompt(managerQuestions).then((input) => makeManagerArray(input)
+            )
+        } else if(input.type == 'Engineer'){
+            console.log('Engineer');
+            inquirer.prompt(engineerQuestions).then((input) => makeEngineerArray(input)
+            )
+        } else{
+            console.log('Intern');
+            inquirer.prompt(internQuestions).then((input) => makeInternArray(input)
+            )
+        }
+    }
+    )
+}
+
+init();
+
+
+
+// const renderHTML = (employee) => {
+//     console.log(`rendering ${employee.name}`);
+//     console.log(`rendering ${employee.email}`);
+//     console.log(`rendering ${employee.id}`);
+// }
+
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
