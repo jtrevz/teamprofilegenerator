@@ -114,7 +114,7 @@ function makeManagerArray (input) {
     // renderHTML(currentArray)
     employeeArray.push(currentArray);
     if (input.last == "Yes"){
-        fs.writeFile('./output/team.html', render(employeeArray),(err) => console.log(err));
+        fs.writeFile('./output/team.html', render(employeeArray),(err) => err? console.log(err): console.log("HTML Created"));
     } else {init()}
 }
 
@@ -122,7 +122,7 @@ function makeEngineerArray (input) {
     let currentArray = new Engineer (input.name, input.id, input.email, input.github)
     employeeArray.push(currentArray);
     if (input.last == "Yes"){
-        fs.writeFile('./output/team.html', render(employeeArray),(err) => console.log(err));
+        fs.writeFile('./output/team.html', render(employeeArray),(err) => err? console.log(err): console.log("HTML Created"));
     } else {init()}
 }
 
@@ -130,8 +130,7 @@ function makeInternArray (input) {
     let currentArray = new Intern (input.name, input.id, input.email, input.school)
     employeeArray.push(currentArray);
     if (input.last == "Yes"){
-        fs.writeFile('./output/team.html', render(employeeArray),(err) => console.log(err));
-        console.log(employeeArray);
+        fs.writeFile('./output/team.html', render(employeeArray),(err) => err? console.log(err): console.log("HTML Created"));
     } else {init()}
 }
 
